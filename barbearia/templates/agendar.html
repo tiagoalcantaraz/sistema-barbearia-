@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% block content %}
+<div class="centro"><h1>Agendar horário</h1>
+<form method="post" class="card form">
+{% if clientes %}<label>Cliente cadastrado (opcional)<select id="cli"><option value="">— Selecionar —</option>{% for c in clientes %}<option value="{{ c.nome }}" data-tel="{{ c.telefone }}">{{ c.nome }}</option>{% endfor %}</select></label>{% endif %}
+<label>Nome<input name="cliente" required></label>
+<label>Telefone<input name="telefone" type="tel" placeholder="(88) 99999-9999" required></label>
+<label>Serviço<select name="servico">{% for n, p in servicos.items() %}<option value="{{ n }}">{{ n }} — R$ {{ p }}</option>{% endfor %}</select></label>
+<label>Data<input name="data" id="data" type="date" min="{{ hoje }}" required></label>
+<label>Horário<select name="hora" id="hora" required></select></label>
+<button class="btn">Confirmar agendamento</button>
+</form></div>
+<script>
+const cli = document.getElementById("cli");
+if (cli) cli.addEventListener("change", () => {
+  const o = cli.selectedOptions[0];
+  document.querySelector("[name=cliente]").value = o.value;
+  document.querySelector("[name=telefone]").value = o.dataset.tel || "";
+});
+const ocupados = {{ ocupados|tojson }}, horarios = {{ horarios|tojson }};
+const data = document.getElementById("data"), hora = document.getElementById("hora");
+function atualizar() {
+  const oc = ocupados[data.value] || [];
+  hora.innerHTML = horarios.map(h => `<option value="${h}" ${oc.includes(h) ? "disabled" : ""}>${h}${oc.includes(h) ? " (ocupado)" : ""}</option>`).join("");
+}
+data.addEventListener("change", atualizar); atualizar();
+</script>
+{% endblock %}

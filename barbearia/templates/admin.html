@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block content %}
+<h1>Painel da barbearia</h1>
+<div class="grid"><div class="card"><p>Agendamentos</p><h3>{{ ags|length }}</h3></div>
+<div class="card"><p>Faturamento (concluídos)</p><h3>R$ {{ total }}</h3></div></div>
+<div class="tabela"><table><tr><th>Data</th><th>Hora</th><th>Cliente</th><th>Telefone</th><th>Serviço</th><th>Status</th><th></th></tr>
+{% for a in ags %}<tr><td>{{ a.data[8:] }}/{{ a.data[5:7] }}</td><td>{{ a.hora }}</td><td>{{ a.cliente }}</td><td>{{ a.telefone }}</td><td>{{ a.servico }}</td>
+<td><span class="tag {{ a.status }}">{{ a.status }}</span></td>
+<td>{% if a.status == 'Agendado' %}<form method="post" action="{{ url_for('mudar', id=a.id, acao='concluir') }}"><button class="btn sm">Concluir</button></form>
+<form method="post" action="{{ url_for('mudar', id=a.id, acao='cancelar') }}"><button class="btn sm out">Cancelar</button></form>{% endif %}</td></tr>
+{% else %}<tr><td colspan="7">Nenhum agendamento ainda.</td></tr>{% endfor %}</table></div>
+{% endblock %}

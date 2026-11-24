@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block content %}
+<section class="home">
+<div class="painel">
+<span class="selo">Desde 2010</span>
+<h1>Estilo e precisão,<br>no seu horário.</h1>
+<p>Escolha o serviço, o dia e o horário. Sem cadastro e sem espera.</p>
+<a class="btn" href="{{ url_for('agendar') }}">Marcar horário</a>
+<ul class="info"><li>Seg–Sáb, 9h às 19h</li><li>Intervalo das 12h às 13h</li></ul>
+</div>
+<div class="coluna"><h2>Cortes e valores</h2><div class="servicos">
+{% for n, p in servicos.items() %}<a class="card serv" href="{{ url_for('agendar') }}"><h3>{{ n }}</h3><p class="preco">R$ {{ p }}</p><span>Agendar →</span></a>{% endfor %}
+</div></div>
+</section>
+{% endblock %}

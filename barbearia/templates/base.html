@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio Barbearia</title>
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<header class="topo"><a class="logo" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='logo.png') }}" alt="Studio Barbearia"></a></header>
+<div class="app">
+<nav class="lado">
+<a href="{{ url_for('agendar') }}" class="{{ 'ativo' if request.endpoint == 'agendar' }}">Agendar</a>
+<a href="{{ url_for('clientes') }}" class="{{ 'ativo' if request.endpoint == 'clientes' }}">Cadastro</a>
+<a href="{{ url_for('admin') }}" class="{{ 'ativo' if request.endpoint == 'admin' }}">Painel</a>
+</nav>
+<div class="conteudo">
+<main>
+{% if request.endpoint != 'index' %}<a class="voltar" href="{{ url_for('index') }}">← Voltar</a>{% endif %}
+{% with m = get_flashed_messages(with_categories=true) %}{% for c, t in m %}<div class="msg {{ c }}">{{ t }}</div>{% endfor %}{% endwith %}
+{% block content %}{% endblock %}
+</main>
+<footer>© Studio Barbearia · Seg–Sáb, 9h–19h</footer>
+</div></div>
+</body></html>
